@@ -1,10 +1,15 @@
 {
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "express-validator": "^7.0.1",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.1",
-    "nodemon": "^3.0.1"
+    "validator": "^13.11.0"
   },
   "scripts": {
     "start": "nodemon server.js"
@@ -22,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/AMRRAGHEB118/book_store_back_end/issues"
   },
-  "homepage": "https://github.com/AMRRAGHEB118/book_store_back_end#readme"
+  "homepage": "https://github.com/AMRRAGHEB118/book_store_back_end#readme",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
 }

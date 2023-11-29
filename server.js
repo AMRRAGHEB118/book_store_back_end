@@ -1,16 +1,29 @@
 const express = require('express')
 const app = express()
+const dbConnection = require('./config/database')
+dbConnection()
 
-const dotenv = require('dotenv')
+const dotenv = require('./config/config')
 const cors = require('cors')
-const db_connection = require('./config/database')
-
-dotenv.config()
 const ENV = process.env.NODE_ENV
-
-db_connection()
-
 app.use(cors())
+
+const globalError = require('./middleware/errorMiddleware')
+
+const userRoute = require('./routes/userRoute')
+
+
+
+app.use('/api/v1/user', userRoute)
+
+app.get('/', (req, res) => {
+    res.send('<h1>Welcome</h1>')
+})
+app.all('*', (req, res, next) => {
+    next(new ApiError(400, `Can't find this route ${req.originalUrl}`))
+})
+
+app.use(globalError)
 
 const PORT = process.env.PORT || 3000
 const server = app.listen(PORT, () => {
@@ -24,4 +37,3 @@ process.on('unhandledRejection', (err) => {
         process.exit(1)
     })
 })
-
