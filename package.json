@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.1",
+    "nodemon": "^3.0.1"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "name": "book_store_back_end",
+  "description": "book_store_back_end",
+  "version": "0.1.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/AMRRAGHEB118/book_store_back_end.git"
+  },
+  "author": "Amr Ashraf",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AMRRAGHEB118/book_store_back_end/issues"
+  },
+  "homepage": "https://github.com/AMRRAGHEB118/book_store_back_end#readme"
+}
