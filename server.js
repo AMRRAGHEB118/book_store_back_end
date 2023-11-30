@@ -3,18 +3,18 @@ const app = express()
 const dbConnection = require('./config/database')
 dbConnection()
 
-const dotenv = require('./config/config')
 const cors = require('cors')
-const ENV = process.env.NODE_ENV
 app.use(cors())
 
 const globalError = require('./middleware/errorMiddleware')
 
 const userRoute = require('./routes/userRoute')
+const productRoute = require('./routes/productRoute')
 
 
 
 app.use('/api/v1/user', userRoute)
+app.use('/api/v1/product', productRoute)
 
 app.get('/', (req, res) => {
     res.send('<h1>Welcome</h1>')
