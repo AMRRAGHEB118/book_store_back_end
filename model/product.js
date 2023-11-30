@@ -59,6 +59,6 @@ const productSchema = new Schema({
         timestamps: true
     })
 
-const productModel = model('products', productSchema)
+const productModel = model('Product', productSchema)
 
 module.exports = productModel

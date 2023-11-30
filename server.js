@@ -12,7 +12,6 @@ const userRoute = require('./routes/userRoute')
 const productRoute = require('./routes/productRoute')
 
 
-
 app.use('/api/v1/user', userRoute)
 app.use('/api/v1/product', productRoute)
 
