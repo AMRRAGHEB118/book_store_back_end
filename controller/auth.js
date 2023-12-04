@@ -14,6 +14,7 @@ const generateToken = (payload) => {
 exports.signup = asyncHandler(async (req, res) => {
     const user = await userModel.create({
         username: req.body.username,
+        email: req.body.email,
         password: req.body.password,
         role: req.body.role,
     })
@@ -48,13 +49,13 @@ exports.login = asyncHandler(async (req, res, next) => {
 
     const token = generateToken(user._id)
 
-    res.status(201).json({
+    res.status(200).json({
         success: true,
         data: {
             user,
-            token,
+            token
         },
-        message: 'User successfully created.',
+        message: 'Logged in successfully.',
     })
 })
 

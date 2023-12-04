@@ -7,6 +7,12 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'Username is required'],
     },
+    email: {
+        type: String,
+        required: [true, 'Email is required'],
+        unique: [true, 'Email must be unique'],
+        validate: [validator.isEmail, 'Email is invalid'],
+    },
     password: {
         type: String,
         required: [true, 'Password is required'],

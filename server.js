@@ -5,15 +5,19 @@ dbConnection()
 
 const cors = require('cors')
 app.use(cors())
+app.use(express.json())
 
 const globalError = require('./middleware/errorMiddleware')
+const ApiError = require('./utils/apiError')
 
 const userRoute = require('./routes/userRoute')
 const productRoute = require('./routes/productRoute')
+const categoryRoute = require('./routes/categoryRoute')
 
 
 app.use('/api/v1/user', userRoute)
 app.use('/api/v1/product', productRoute)
+app.use('/api/v1/category', categoryRoute)
 
 app.get('/', (req, res) => {
     res.send('<h1>Welcome</h1>')

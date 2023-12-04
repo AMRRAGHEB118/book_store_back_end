@@ -17,11 +17,11 @@ exports.signupValidator = [
 ]
 
 exports.loginValidator = [
-    check('username')
+    check('email')
         .notEmpty()
-        .withMessage('Username is required')
+        .withMessage('Email is required')
         .isString()
-        .withMessage('Username must be a string'),
+        .withMessage('Email must be a string'),
     check('password')
         .notEmpty()
         .withMessage('Password is required')

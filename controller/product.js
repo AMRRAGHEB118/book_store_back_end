@@ -1,8 +1,10 @@
 const ApiError = require('../utils/apiError')
 const asyncHandler = require('express-async-handler')
 const productModel = require('../model/product')
+const slugify = require('slugify')
 
 exports.createProduct = asyncHandler(async (req, res) => {
+    req.body.slug = slugify(req.body.title)
     const product = await productModel.create(req.body)
 
     res.status(201).json({
