@@ -1,6 +1,7 @@
 const ApiError = require('../utils/apiError')
 const asyncHandler = require('express-async-handler')
 const userModel = require('../model/user')
+const cartModel = require('../model/cart')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const { addToBlackList } = require('./blackList')
@@ -18,6 +19,12 @@ exports.signup = asyncHandler(async (req, res) => {
         password: req.body.password,
         role: req.body.role,
     })
+
+    if(role === 'buyer') {
+        const cart = await cartModel.create({
+            user: user._id
+        })
+    }
 
     const token = generateToken(user._id)
 
