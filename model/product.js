@@ -26,7 +26,7 @@ const productSchema = new Schema({
 
     category: {
         type: Schema.Types.ObjectId,
-        ref: 'categories',
+        ref: 'Category',
         required: [true, 'Product category is required'],
     },
 
@@ -44,7 +44,7 @@ const productSchema = new Schema({
         default: 0,
     },
 
-    cover_image: {
+    coverImage: {
         type: String,
         required: true,
     },

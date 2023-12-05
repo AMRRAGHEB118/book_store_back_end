@@ -14,6 +14,28 @@ exports.createProduct = asyncHandler(async (req, res) => {
     })
 })
 
+exports.getProductsForSeller = asyncHandler(async (req, res) => {
+    const products = await productModel.find({ seller: req.params.sellerId }).populate('category', 'title');
+
+    const formattedProducts = products.map(product => ({
+        _id: product._id,
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        category: product.category.title,
+        quantity: product.quantity,
+        sold: product.sold,
+        coverImage: product.coverImage,
+        updatedAt: formatDate(product.updatedAt),
+    }));
+
+    res.status(200).json({
+        success: true,
+        data: formattedProducts,
+        message: 'Products successfully retrieved.',
+    });
+});
+
 exports.getProduct = asyncHandler(async (req, res) => {
     const product = await productModel.findById(req.params.id)
 
@@ -58,3 +80,8 @@ exports.deleteProduct = asyncHandler(async (req, res) => {
         message: 'Product successfully deleted.',
     })
 })
+
+function formatDate(date) {
+    const options = { day: 'numeric', month: 'numeric', year: 'numeric' };
+    return new Date(date).toLocaleDateString('en-US', options);
+}

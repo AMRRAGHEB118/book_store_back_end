@@ -19,4 +19,5 @@ const categorySchema = new Schema({
     })
 
 const categoryModel = model('Category', categorySchema)
+
 module.exports = categoryModel

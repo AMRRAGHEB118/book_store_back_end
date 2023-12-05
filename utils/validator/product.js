@@ -30,7 +30,7 @@ exports.createValidator = [
     .withMessage('Price must be a number')
     .isFloat({ min: 0 })
     .withMessage('Price cannot be negative'),
-    check('cover_image')
+    check('coverImage')
     .notEmpty()
     .withMessage('Product image Cover is required')
     .isString()
@@ -39,16 +39,7 @@ exports.createValidator = [
     .notEmpty()
     .withMessage('Product must be belong to a category')
     .isMongoId()
-    .withMessage('Invalid category ID')
-    .custom(async (category_id) => {
-        const category = await category_model.findById(category_id)
-        if (!category) {
-            return Promise.reject(
-                new Error(`No category for this Id : ${category}`)
-            )
-        }
-        return Promise.resolve()
-    }),
+    .withMessage('Invalid category ID'),
     validatorMiddleware,
 ]
 
