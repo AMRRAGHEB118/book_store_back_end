@@ -14,6 +14,15 @@ exports.createProduct = asyncHandler(async (req, res) => {
     })
 })
 
+exports.getProductCount = asyncHandler(async (req, res) => {
+    const count = await productModel.countDocuments();
+    res.status(200).json({
+        success: true,
+        data: count,
+        message: 'Product count successfully retrieved.',
+    })
+})
+
 exports.getProductsForSeller = asyncHandler(async (req, res) => {
     const products = await productModel.find({ seller: req.params.sellerId }).populate('category', 'title');
 
@@ -35,6 +44,32 @@ exports.getProductsForSeller = asyncHandler(async (req, res) => {
         message: 'Products successfully retrieved.',
     });
 });
+
+exports.filterProductsByCategory = asyncHandler(async (req, res, next) => {
+    let filter = {};
+    if (req.query.category) filter.category = req.query.category
+    req.filter = filter;
+    next();
+})
+
+
+exports.getProductsForBuyer = asyncHandler(async (req, res) => {
+    const filter = req.filter
+    const limit = parseInt(req.query.limit) || 12
+    const page = parseInt(req.query.page) || 1
+    const skip = (page - 1) * limit;
+    const products = await productModel.find(filter).skip(skip).limit(limit).select('coverImage _id title price');
+
+    if(!products) {
+        throw new ApiError(404, 'Products not found')
+    }
+
+    res.status(200).json({
+        success: true,
+        data: products,
+        message: 'Products successfully retrieved.',
+    })
+})
 
 exports.getProduct = asyncHandler(async (req, res) => {
     const product = await productModel.findById(req.params.id)
