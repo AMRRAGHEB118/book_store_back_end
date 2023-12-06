@@ -6,6 +6,7 @@ const {
     getComments
 } = require('../controller/comment');
 
-router.route('/').post(createComment).get(getComments);
+router.route('/').post(createComment);
+router.route('/:productId').get(getComments);
 
 module.exports = router

@@ -13,17 +13,13 @@ const generateToken = (payload) => {
 }
 
 exports.signup = asyncHandler(async (req, res) => {
-    const user = await userModel.create({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        role: req.body.role,
-    })
+    const user = await userModel.create(req.body)
 
-    if(role === 'buyer') {
+    if(user.role === 'buyer') {
         const cart = await cartModel.create({
             user: user._id
         })
+        user.cart = cart
     }
 
     const token = generateToken(user._id)
