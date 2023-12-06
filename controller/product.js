@@ -50,7 +50,7 @@ exports.getProduct = asyncHandler(async (req, res) => {
     })
 })
 
-exports.updateProduct = asyncHandler(async (req, res) => {
+exports.updateProductBySeller = asyncHandler(async (req, res) => {
     const product = await productModel.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true
@@ -66,6 +66,25 @@ exports.updateProduct = asyncHandler(async (req, res) => {
         message: 'Product successfully updated.',
     })
 })
+
+exports.updateProductByBuyer = asyncHandler(async (productId, quantity) => {
+    const product = await productModel.findByIdAndUpdate(
+        productId,
+        {
+            $inc: { sold: quantity, quantity: -quantity },
+        },
+        {
+            new: true,
+            runValidators: true,
+        }
+    );
+
+    if (!product) {
+        throw new ApiError(404, 'Product not found');
+    }
+
+    return product;
+});
 
 exports.deleteProduct = asyncHandler(async (req, res) => {
     const product = await productModel.findByIdAndDelete(req.params.id)

@@ -11,13 +11,13 @@ const {
 const {
     createProduct,
     getProduct,
-    updateProduct,
+    updateProductBySeller,
     deleteProduct,
     getProductsForSeller
 } = require('../controller/product')
 
 router.route('/').post(createValidator, createProduct)
-router.route('/:id').get(getValidator, getProduct).put(updateValidator, updateProduct).delete(deleteValidator, deleteProduct)
+router.route('/:id').get(getValidator, getProduct).put(updateValidator, updateProductBySeller).delete(deleteValidator, deleteProduct)
 router.route('/seller/:sellerId').get(getProductsForSeller)
 
 module.exports = router

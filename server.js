@@ -13,12 +13,14 @@ const ApiError = require('./utils/apiError')
 const userRoute = require('./routes/userRoute')
 const productRoute = require('./routes/productRoute')
 const categoryRoute = require('./routes/categoryRoute')
+const cartRoute = require('./routes/cartRoute')
 const contactRoute = require('./routes/contactRoute')
 
 
 app.use('/api/v1/user', userRoute)
 app.use('/api/v1/product', productRoute)
 app.use('/api/v1/category', categoryRoute)
+app.use('/api/v1/cart', cartRoute)
 app.use('/api/v1/contact', contactRoute)
 
 app.get('/', (req, res) => {
