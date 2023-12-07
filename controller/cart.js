@@ -6,10 +6,18 @@ const { updateProductByBuyer } = require('./product')
 
 
 exports.getCart = asyncHandler(async (req, res) => {
-    const { userId } = req.body
+    const userId = req.params.userId
 
     const cart = await cartModel.findOne({ user: userId })
-        .populate('products.product')
+        .populate({
+            path: 'products.product',
+            select: 'price title coverImage _id',
+            populate: {
+                path: 'category',
+                select: 'title',
+                model: 'Category'
+            }
+        });
 
     if (!cart) {
         throw new ApiError(404, 'Cart not found')
@@ -23,7 +31,7 @@ exports.getCart = asyncHandler(async (req, res) => {
 })
 
 exports.deleteCart = asyncHandler(async (req, res) => {
-    const { userId } = req.body
+    const userId = req.params.userId
 
     const cart = await cartModel.findOneAndDelete({ user: userId })
 
@@ -39,6 +47,7 @@ exports.deleteCart = asyncHandler(async (req, res) => {
 })
 
 exports.addToCart = asyncHandler(async (req, res) => {
+    const offer = req.query.offer
     const { userId, quantity } = req.body
     const { productId } = req.params
 
@@ -52,16 +61,19 @@ exports.addToCart = asyncHandler(async (req, res) => {
         throw new ApiError(404, 'Product not found');
     }
 
+    const offerDiscount = offer ? (product.price * (offer / 100) * quantity) : 0;
+
     if (!cart) {
         const newCart = await cartModel.create({
             user: userId,
             products: [{
                 product: productId,
                 price: product.price,
-                quantity: quantity
+                quantity: quantity,
             }],
-            totalPrice: product.price * quantity
-        })
+            totalPrice: (product.price * quantity) - offerDiscount,
+            discount: offerDiscount,
+        });
 
         product = await Promise.resolve(updateProductByBuyer(productId, quantity));
 
@@ -82,7 +94,8 @@ exports.addToCart = asyncHandler(async (req, res) => {
                 price: product.price,
                 quantity: quantity,
             })
-            cart.totalPrice += (product.price * quantity)
+            cart.totalPrice += (product.price * quantity) - offerDiscount;
+            cart.discount += offerDiscount;
             await cart.save()
 
             product = await Promise.resolve(updateProductByBuyer(productId, quantity));
@@ -98,7 +111,8 @@ exports.addToCart = asyncHandler(async (req, res) => {
         } else {
             cart.products[productIndex].quantity += quantity
             const productPrice = cart.products[productIndex].price
-            cart.totalPrice += (productPrice * quantity)
+            cart.totalPrice += (productPrice * quantity) - offerDiscount;
+            cart.discount += offerDiscount;
             await cart.save()
 
             product = await Promise.resolve(updateProductByBuyer(productId, quantity));

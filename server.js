@@ -16,6 +16,7 @@ const categoryRoute = require('./routes/categoryRoute')
 const cartRoute = require('./routes/cartRoute')
 const contactRoute = require('./routes/contactRoute')
 const commentRoute = require('./routes/commentRoute')
+const couponRoute = require('./routes/couponRoute')
 
 
 app.use('/api/v1/user', userRoute)
@@ -24,6 +25,7 @@ app.use('/api/v1/category', categoryRoute)
 app.use('/api/v1/cart', cartRoute)
 app.use('/api/v1/contact', contactRoute)
 app.use('/api/v1/comment', commentRoute)
+app.use('/api/v1/coupon', couponRoute)
 
 app.get('/', (req, res) => {
     res.send('<h1>Welcome</h1>')
