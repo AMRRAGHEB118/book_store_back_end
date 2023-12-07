@@ -18,7 +18,10 @@ exports.applyCoupon = asyncHandler(async (req, res) => {
 })
 
 exports.generateCoupon = asyncHandler(async (req, res) => {
-    const coupon = await couponModel.create(req.body)
+    const productId = req.params.productId
+    const coupon = await couponModel.create({
+        product: productId
+    })
 
     res.status(201).json({
         success: true,

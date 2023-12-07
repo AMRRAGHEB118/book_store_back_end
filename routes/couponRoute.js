@@ -7,6 +7,6 @@ const {
 } = require('../controller/coupon');
 
 router.route('/apply').post(applyCoupon);
-router.route('/generate').post(generateCoupon);
+router.route('/generate/:productId').post(generateCoupon);
 
 module.exports = router;
