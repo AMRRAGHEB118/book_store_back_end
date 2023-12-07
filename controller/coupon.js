@@ -1,10 +1,16 @@
 const asyncHandler = require('express-async-handler')
 const ApiError = require('../utils/apiError')
 const couponModel = require('../model/coupon')
+const { Types } = require('mongoose')
 
 
 exports.applyCoupon = asyncHandler(async (req, res) => {
     const { id, product } = req.body
+
+    if (!Types.ObjectId.isValid(id)) {
+        throw new ApiError(400, 'Invalid coupon ID');
+    }
+
     const coupon = await couponModel.findOne({ _id: id, product: product })
 
     if (!coupon) {
